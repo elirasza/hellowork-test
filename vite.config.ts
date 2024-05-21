@@ -1,32 +1,23 @@
-import { join } from 'path'
-import { config } from 'dotenv'
-import { defineConfig, ViteDevServer } from 'vite'
-import react from '@vitejs/plugin-react'
 import express from 'express'
+import react from '@vitejs/plugin-react'
+import { defineConfig, ViteDevServer } from 'vite'
+import { config } from 'dotenv'
+import { routes } from './vite.config.routes'
 
 config()
 
-const authenticator = () => ({
-  name: 'authenticator',
-  configureServer: (server: ViteDevServer) => {
-    server.middlewares.use(express().get('/authenticate', async (_, response) => {
-      const route = join(process.env['JOBIJOBA_API_URL'] as string, 'login')
-      const login = await fetch(route, {
-        method: 'POST',
-        body: JSON.stringify({
-          'client_id': process.env['JOBIJOBA_API_ID'],
-          'client_secret': process.env['JOBIJOBA_API_SECRET'],
-        }),
-      })
-
-      const { token } = await login.json()
-
-      response.header('Content-Type', 'text/plain')
-      response.send(token).end()
-    }))
-  },
+const router = () => ({
+  name: 'router',
+  configureServer: (server: ViteDevServer) => Object.entries(routes).forEach(([route, callback]) => {
+    server.middlewares.use(express().get(route, (request, response) => callback(request, response)))
+  }),
 })
 
 export default defineConfig({
-  plugins: [react(), authenticator()],
+  plugins: [react(), router()],
+  server: {
+    headers: {
+      'Content-Security-Policy': 'connect-src \'self\' https://api.jobijoba.com;',
+    },
+  },
 })

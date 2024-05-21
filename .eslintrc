@@ -32,7 +32,7 @@
   "overrides": [
     {
       "files": [
-        "vite.config.ts"
+        "vite.config*.ts"
       ],
       "parserOptions": {
         "project": "tsconfig.node.json"

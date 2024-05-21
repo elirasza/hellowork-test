@@ -9,11 +9,22 @@ export const App = () => {
     setToken(response.ok ? await response.text() : '')
   }, [])
 
-  const fetchGetJobs = useCallback(() => {
+  const getJobs = useCallback(async () => {
+    if (!token) return
 
-  }, [])
+    const params = {
+      token,
+      what: 'Infirmier',
+      where: 'Paris',
+      limit: '1',
+    }
+
+    const response = await fetch(`/jobs?${new URLSearchParams(params).toString()}`, { method: 'GET' })
+    console.log(response)
+  }, [token])
 
   useEffect(() => { login() }, [login])
+  useEffect(() => { getJobs() }, [getJobs])
 
   return (
     <div>
