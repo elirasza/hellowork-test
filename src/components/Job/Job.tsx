@@ -20,9 +20,9 @@ export const Job = ({ job }: JobProps) => (
   <a href={job.link} target="_blank" rel="noreferrer">
     <Card variant="outlined" sx={{ maxWidth: '100%' }}>
       <Box sx={{ p: 2 }}>
-        <Stack direction="row" justifyContent="space-between" alignItems="center">
-          <Typography gutterBottom variant="h5" component="div">{job.title}</Typography>
-          <Typography gutterBottom variant="h6" component="div">{`${job.city} (${job.postalCode})`}</Typography>
+        <Stack direction="row" justifyContent="space-between" alignItems="start" gap={4}>
+          <Typography gutterBottom variant="h5" component="div" textAlign="left">{job.title}</Typography>
+          <Typography gutterBottom variant="h6" component="div" whiteSpace="pre">{`${job.city} (${job.postalCode})`}</Typography>
         </Stack>
         <Typography align="left" color="text.secondary" variant="body2">{job.description}</Typography>
       </Box>
