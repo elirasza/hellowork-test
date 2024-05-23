@@ -13,11 +13,4 @@ const router = () => ({
   }),
 })
 
-export default defineConfig({
-  plugins: [react(), router()],
-  server: {
-    headers: {
-      'Content-Security-Policy': 'connect-src \'self\' https://api.jobijoba.com;',
-    },
-  },
-})
+export default defineConfig({ plugins: [react(), router()] })

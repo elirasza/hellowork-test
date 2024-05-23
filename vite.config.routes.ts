@@ -18,11 +18,11 @@ export const routes = {
     response.send(token).end()
   },
   '/jobs': async (request: Request, response: Response) => {
-    const { limit, token, what, where } = request.query as Record<string, string>
+    const { limit, page, token, what, where } = request.query as Record<string, string>
 
     const route = join(process.env['JOBIJOBA_API_URL'] as string, 'ads/search')
     const headers = { 'Authorization': `Bearer ${token}` }
-    const params = { limit, what, where }
+    const params = { page, limit, what, where }
 
     const jobs = await fetch(`${route}?${new URLSearchParams(params).toString()}`, { method: 'GET', headers })
     const { data } = await jobs.json()
